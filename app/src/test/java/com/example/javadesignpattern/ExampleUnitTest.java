@@ -1,6 +1,9 @@
 package com.example.javadesignpattern;
 
 import com.example.javadesignpattern.build.CustomDialog;
+import com.example.javadesignpattern.factory.ComputerFactory;
+import com.example.javadesignpattern.factory.DellComputer;
+import com.example.javadesignpattern.factory.ThinkPadComputer;
 import com.example.javadesignpattern.observer.UserObserver;
 import com.example.javadesignpattern.observer.WxSubject;
 import com.example.javadesignpattern.proxy.Car;
@@ -84,5 +87,15 @@ public class ExampleUnitTest {
         Moveable o = (Moveable) Proxy.newProxyInstance(car.getClass().getClassLoader(),
                 car.getClass().getInterfaces(), handler);
         o.drive();
+    }
+
+    @Test
+    public void testFactory(){
+        ComputerFactory factory = new ComputerFactory();
+        ThinkPadComputer thinkPadComputer = factory.newInstance(ThinkPadComputer.class);
+        thinkPadComputer.startCreat();
+
+        DellComputer dellComputer = factory.newInstance(DellComputer.class);
+        dellComputer.startCreat();
     }
 }
