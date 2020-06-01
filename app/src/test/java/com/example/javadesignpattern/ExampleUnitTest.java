@@ -1,11 +1,15 @@
 package com.example.javadesignpattern;
 
+import com.example.javadesignpattern.abstractfactory.DellFactory;
+import com.example.javadesignpattern.abstractfactory.DellNoteComputer;
 import com.example.javadesignpattern.build.CustomDialog;
 import com.example.javadesignpattern.factory.ComputerFactory;
 import com.example.javadesignpattern.factory.DellComputer;
 import com.example.javadesignpattern.factory.ThinkPadComputer;
 import com.example.javadesignpattern.observer.UserObserver;
 import com.example.javadesignpattern.observer.WxSubject;
+import com.example.javadesignpattern.prototype.BusinessCard;
+import com.example.javadesignpattern.prototype.Info;
 import com.example.javadesignpattern.proxy.Car;
 import com.example.javadesignpattern.proxy.Car1;
 import com.example.javadesignpattern.proxy.Moveable;
@@ -98,4 +102,37 @@ public class ExampleUnitTest {
         DellComputer dellComputer = factory.newInstance(DellComputer.class);
         dellComputer.startCreat();
     }
+
+    @Test
+    public void testAbstractFactory(){
+        DellFactory dellFactory = new DellFactory();
+        dellFactory.creatComputer(com.example.javadesignpattern.abstractfactory.DellComputer.class).startCreat();
+        dellFactory.creatNote(DellNoteComputer.class).start();
+    }
+    //原型模式测试
+    @Test
+    public void testPrototype(){
+        BusinessCard b1 = new BusinessCard();
+        b1.setName("马云");
+        b1.setCompany("alibaba");
+        b1.setInfo(new Info("马","杭州"));
+        b1.addList("http://pic1");
+
+        BusinessCard b2 = b1.clone();
+        b2.setName("马化腾");
+        b2.setCompany("Tencent");
+        b2.setInfo(new Info("er马","广州"));
+        b2.addList("http://pic2");
+
+        BusinessCard b3 = b1.clone();
+        b3.setName("王建林");
+        b3.setCompany("wanda");
+        b3.setInfo(new Info("王","大连"));
+        b3.addList("http://pic3");
+
+        System.out.println(b1.toString());
+        System.out.println(b2.toString());
+        System.out.println(b3.toString());
+    }
+
 }
