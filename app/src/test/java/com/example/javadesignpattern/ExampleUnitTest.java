@@ -3,9 +3,18 @@ package com.example.javadesignpattern;
 import com.example.javadesignpattern.abstractfactory.DellFactory;
 import com.example.javadesignpattern.abstractfactory.DellNoteComputer;
 import com.example.javadesignpattern.build.CustomDialog;
+import com.example.javadesignpattern.decorator.HongQIGong;
+import com.example.javadesignpattern.decorator.Swordsman;
+import com.example.javadesignpattern.decorator.YangGuo;
+import com.example.javadesignpattern.facade.Manager;
 import com.example.javadesignpattern.factory.ComputerFactory;
 import com.example.javadesignpattern.factory.DellComputer;
 import com.example.javadesignpattern.factory.ThinkPadComputer;
+import com.example.javadesignpattern.flyweight.IGoods;
+import com.example.javadesignpattern.mediator.Champions;
+import com.example.javadesignpattern.mediator.EMei;
+import com.example.javadesignpattern.mediator.ShaoLin;
+import com.example.javadesignpattern.mediator.WuDang;
 import com.example.javadesignpattern.observer.UserObserver;
 import com.example.javadesignpattern.observer.WxSubject;
 import com.example.javadesignpattern.prototype.BusinessCard;
@@ -135,4 +144,46 @@ public class ExampleUnitTest {
         System.out.println(b3.toString());
     }
 
+
+    @Test
+    public void testdecorator(){
+        Swordsman swordsman = new YangGuo();
+        HongQIGong hongQIGong = new HongQIGong(swordsman);
+        hongQIGong.attackMagic();
+    }
+
+    @Test
+    public void testFacade(){
+        Manager manager = new Manager();
+        manager.skipMenu();
+        manager.skipOrderList();
+    }
+
+    @Test
+    public void testXY(){
+        com.example.javadesignpattern.flyweight.ComputerFactory factory = new com.example.javadesignpattern.flyweight.ComputerFactory();
+        IGoods goods = factory.creatGoods("Iphone7");
+        goods.showGoodsPrice("32");
+
+        IGoods goods1 = factory.creatGoods("Iphone7");
+        goods1.showGoodsPrice("32");
+
+        IGoods goods2 = factory.creatGoods("Iphone7");
+        goods2.showGoodsPrice("256");
+    }
+
+    @Test
+    public void textMedi(){
+        Champions champions = new Champions();
+        WuDang wuDang = new WuDang(champions);
+        EMei eMei = new EMei(champions);
+        ShaoLin shaoLin = new ShaoLin(champions);
+
+        champions.seteMei(eMei);
+        champions.setWuDang(wuDang);
+        champions.setShaoLin(shaoLin);
+
+//        wuDang.sendNotice();
+        shaoLin.sendNotice();
+    }
 }
