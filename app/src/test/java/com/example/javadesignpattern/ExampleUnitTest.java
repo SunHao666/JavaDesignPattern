@@ -28,6 +28,9 @@ import com.example.javadesignpattern.samplefactory.Product;
 import com.example.javadesignpattern.singleobject.Apple;
 import com.example.javadesignpattern.singleobject.Fruit;
 import com.example.javadesignpattern.singleobject.Orange;
+import com.example.javadesignpattern.state.Mp3Context;
+import com.example.javadesignpattern.state.Mp3Controller;
+import com.example.javadesignpattern.state.PowerOnState;
 
 import org.junit.Test;
 
@@ -185,5 +188,25 @@ public class ExampleUnitTest {
 
 //        wuDang.sendNotice();
         shaoLin.sendNotice();
+    }
+
+    @Test
+    public void testMp3(){
+        Mp3Controller controller = new Mp3Controller();
+        controller.powerOn();
+        controller.preSong();
+        controller.powerOff();
+        controller.powerOff();
+
+    }
+
+    @Test
+    public void testState(){
+        Mp3Context context = new Mp3Context();
+        context.setMp3State(new PowerOnState());
+        context.powerOn();
+        context.powerOff();
+        context.powerOn();
+        context.preSong();
     }
 }
