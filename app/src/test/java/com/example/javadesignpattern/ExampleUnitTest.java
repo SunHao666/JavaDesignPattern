@@ -1,8 +1,24 @@
 package com.example.javadesignpattern;
 
+import androidx.core.widget.TextViewCompat;
+
 import com.example.javadesignpattern.abstractfactory.DellFactory;
 import com.example.javadesignpattern.abstractfactory.DellNoteComputer;
+import com.example.javadesignpattern.adapter.MAdapter;
+import com.example.javadesignpattern.bridge.Coffee;
+import com.example.javadesignpattern.bridge.ICoffeeFlavor;
+import com.example.javadesignpattern.bridge.LargeCoffee;
+import com.example.javadesignpattern.bridge.PlainCoffee;
+import com.example.javadesignpattern.bridge.SmallCoffee;
+import com.example.javadesignpattern.bridge.SugarCoffee;
 import com.example.javadesignpattern.build.CustomDialog;
+import com.example.javadesignpattern.cmd.CommondImpl;
+import com.example.javadesignpattern.cmd.Invoke;
+import com.example.javadesignpattern.cmd.test2.IWindCommond;
+import com.example.javadesignpattern.cmd.test2.WinCommondMaxImpl;
+import com.example.javadesignpattern.cmd.test2.WinCommondMinImpl;
+import com.example.javadesignpattern.cmd.test2.WinInvoke;
+import com.example.javadesignpattern.cmd.test2.WindReceive;
 import com.example.javadesignpattern.decorator.HongQIGong;
 import com.example.javadesignpattern.decorator.Swordsman;
 import com.example.javadesignpattern.decorator.YangGuo;
@@ -23,6 +39,13 @@ import com.example.javadesignpattern.proxy.Car;
 import com.example.javadesignpattern.proxy.Car1;
 import com.example.javadesignpattern.proxy.Moveable;
 import com.example.javadesignpattern.proxy.TimeInvocationHandler;
+import com.example.javadesignpattern.responsebility.Handler;
+import com.example.javadesignpattern.responsebility.HandlerA;
+import com.example.javadesignpattern.responsebility.HandlerB;
+import com.example.javadesignpattern.responsebility.HandlerC;
+import com.example.javadesignpattern.responsebility.HandlerD;
+import com.example.javadesignpattern.responsebility.HandlerReq;
+import com.example.javadesignpattern.responsebility.RequestString;
 import com.example.javadesignpattern.samplefactory.CarFactory;
 import com.example.javadesignpattern.samplefactory.Product;
 import com.example.javadesignpattern.singleobject.Apple;
@@ -208,5 +231,67 @@ public class ExampleUnitTest {
         context.powerOff();
         context.powerOn();
         context.preSong();
+    }
+
+    @Test
+    public void testAdapter(){
+        MAdapter adapter = new MAdapter();
+        int result = adapter.to12();
+        System.out.println(result);
+    }
+
+    @Test
+    public void testBridge(){
+        ICoffeeFlavor flavor = new PlainCoffee();
+        Coffee coffee = new LargeCoffee(flavor);
+        coffee.makeCoffee();
+
+        ICoffeeFlavor flavor1 = new PlainCoffee();
+        Coffee coffee1 = new SmallCoffee(flavor1);
+        coffee1.makeCoffee();
+
+
+        ICoffeeFlavor flavor2 = new SugarCoffee();
+        Coffee coffee2 = new LargeCoffee(flavor2);
+        coffee2.makeCoffee();
+    }
+
+    @Test
+    public void testLink(){
+        Handler handlerA = new HandlerA();
+        Handler handlerB = new HandlerB();
+
+        handlerA.setNextHandler(handlerB);
+
+        handlerA.handRequest("reqA");
+    }
+
+    @Test
+    public void testLink1(){
+        HandlerReq h1 = new HandlerC(new RequestString("request1"));
+        HandlerReq h2 = new HandlerD(new RequestString("request2"));
+
+        h1.setNextHandler(h2);
+        h1.handrequest(new RequestString("request2"));
+    }
+    @Test
+    public void testCmd(){
+        CommondImpl commond = new CommondImpl();
+        Invoke invoke = new Invoke(commond);
+        invoke.action();
+    }
+
+    @Test
+    public void testWindCmd(){
+        WindReceive receive = new WindReceive();
+        IWindCommond commond = new WinCommondMaxImpl(receive);
+        WinInvoke invoke = new WinInvoke(commond);
+        invoke.action();
+
+
+        IWindCommond minommond = new WinCommondMinImpl(receive);
+        WinInvoke minInvoke = new WinInvoke(minommond);
+        minInvoke.action();
+
     }
 }
